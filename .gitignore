@@ -1,0 +1,34 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Vercel
+.vercel
+
+# Node (por si alguien instala algo)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Source assets (los originales sin procesar)
+photos-source/
+*.HEIC
+*.MP4.bak
