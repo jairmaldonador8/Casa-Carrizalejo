@@ -2689,6 +2689,20 @@ if (reelSound && reelVideo) {
 // Ensure page always loads from top
 // ════════════════════════════════════════════════
 window.scrollTo(0, 0);
+document.documentElement.scrollTop = 0;
+document.body.scrollTop = 0;
+
+if (window.location.hash) {
+  window.location.hash = '';
+}
+
+window.addEventListener('load', () => {
+  requestAnimationFrame(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  });
+});
 
 // ════════════════════════════════════════════════
 // NAV scroll state
