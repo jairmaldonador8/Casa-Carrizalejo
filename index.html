@@ -927,13 +927,38 @@ section { position: relative; }
 
 @media (max-width: 600px) {
   .carousel-wrapper {
-    aspect-ratio: 16 / 12;
+    aspect-ratio: 4 / 5;
+    height: auto;
+  }
+
+  .carousel-track {
+    padding: 12px;
+    gap: 12px;
   }
 
   .carousel-item {
-    flex: 0 0 calc(85% - 2px);
-    min-height: 250px;
+    flex: 0 0 calc(100% - 24px);
+    min-height: 400px;
     font-size: 16px;
+    border-radius: 8px;
+  }
+
+  .carousel-item-label {
+    font-size: 14px;
+  }
+
+  .carousel-item-number {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .dot.active {
+    width: 28px;
   }
 }
 
@@ -2844,26 +2869,45 @@ function updateDots() {
 
 // Auto-scroll every 4 seconds
 let autoScrollTimer;
+let isUserInteracting = false;
 
 function autoScroll() {
+  const itemWidth = carousel.querySelector('.carousel-item').offsetWidth;
+  const gap = window.innerWidth <= 600 ? 12 : 16;
   carousel.scrollBy({
-    left: carousel.querySelector('.carousel-item').offsetWidth + 16,
+    left: itemWidth + gap,
     behavior: 'smooth'
   });
   autoScrollTimer = setTimeout(autoScroll, 4000);
 }
 
-carousel.addEventListener('mousedown', () => clearTimeout(autoScrollTimer));
-carousel.addEventListener('touchstart', () => clearTimeout(autoScrollTimer));
-carousel.addEventListener('scroll', () => {
+carousel.addEventListener('mousedown', () => {
+  isUserInteracting = true;
   clearTimeout(autoScrollTimer);
-  updateDots();
+});
+
+carousel.addEventListener('touchstart', () => {
+  isUserInteracting = true;
+  clearTimeout(autoScrollTimer);
+});
+
+carousel.addEventListener('mouseup', () => {
+  isUserInteracting = false;
   autoScrollTimer = setTimeout(autoScroll, 4000);
+});
+
+carousel.addEventListener('touchend', () => {
+  isUserInteracting = false;
+  autoScrollTimer = setTimeout(autoScroll, 4000);
+});
+
+carousel.addEventListener('scroll', () => {
+  updateDots();
 });
 
 autoScroll();
 
-// Drag/swipe support
+// Smooth drag/swipe support
 let isDown = false;
 let startX;
 let scrollLeft;
@@ -2881,16 +2925,24 @@ carousel.addEventListener('mousemove', (e) => {
   if (!isDown) return;
   e.preventDefault();
   const x = e.pageX - carousel.offsetLeft;
-  const walk = (x - startX);
+  const walk = (x - startX) * 0.8;
   carousel.scrollLeft = scrollLeft - walk;
 });
 
-// Touch events for mobile
+// Touch events for mobile - very smooth
+let touchStartX = 0;
+let touchStartScroll = 0;
+
+carousel.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].pageX;
+  touchStartScroll = carousel.scrollLeft;
+}, { passive: true });
+
 carousel.addEventListener('touchmove', (e) => {
-  if (!isDown) return;
-  const x = e.touches[0].pageX - carousel.offsetLeft;
-  const walk = (x - startX);
-  carousel.scrollLeft = scrollLeft - walk;
+  if (!e.touches[0]) return;
+  const touchX = e.touches[0].pageX;
+  const diff = touchStartX - touchX;
+  carousel.scrollLeft = touchStartScroll + diff;
 }, { passive: true });
 </script>
 
