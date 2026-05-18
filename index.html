@@ -1098,6 +1098,10 @@ section { position: relative; }
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+.tour__carousel.auto-scrolling {
   scroll-behavior: smooth;
 }
 
@@ -1170,6 +1174,54 @@ section { position: relative; }
   color: rgba(255, 255, 255, 0.85);
   max-width: 400px;
   margin: 0 auto;
+}
+
+.tour__scroll-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.6s ease-out;
+}
+
+.tour__scroll-hint-text {
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 8px;
+}
+
+.tour__scroll-hint-icon {
+  display: inline-block;
+  width: 20px;
+  height: 30px;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  position: relative;
+}
+
+.tour__scroll-hint-icon::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  left: 50%;
+  top: 6px;
+  transform: translateX(-50%);
+  border-radius: 1px;
+  animation: scroll-bounce 1.5s infinite;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
 }
 
 @media (max-width: 900px) {
@@ -2259,6 +2311,10 @@ section { position: relative; }
           <p class="tour__carousel-desc">Vista desde el segundo nivel hacia el patio empedrado con árbol central, herrería forjada y entrada a las áreas sociales. Ideal para eventos.</p>
         </div>
       </div>
+      <div class="tour__scroll-hint" id="tourScrollHint">
+        <div class="tour__scroll-hint-text">Desliza</div>
+        <div class="tour__scroll-hint-icon"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -2613,22 +2669,26 @@ document.querySelectorAll('.reveal, .reveal-zoom').forEach(el => io.observe(el))
 // TOUR — interactive room navigation
 // ════════════════════════════════════════════════
 // ════════════════════════════════════════════════
-// TOUR CAROUSEL — auto-scroll every 4s, manual scroll stops it
+// TOUR CAROUSEL — auto-scroll every 4s, instant on manual scroll
 // ════════════════════════════════════════════════
 const tourCarousel = document.getElementById('tourCarousel');
-const tourSlides = document.querySelectorAll('.tour__carousel-slide');
+const tourScrollHint = document.getElementById('tourScrollHint');
 let tourAutoScroll = null;
 let tourScrollTimeout = null;
 let isManuallyScrolling = false;
+let hasScrolledManually = false;
 
 function startTourAutoScroll() {
+  tourCarousel.classList.add('auto-scrolling');
   tourAutoScroll = setInterval(() => {
     tourCarousel.scrollBy({ top: tourCarousel.clientHeight, behavior: 'smooth' });
   }, 4000);
 }
 
 function stopTourAutoScroll() {
+  tourCarousel.classList.remove('auto-scrolling');
   clearInterval(tourAutoScroll);
+  tourAutoScroll = null;
   clearTimeout(tourScrollTimeout);
   isManuallyScrolling = true;
 }
@@ -2636,25 +2696,37 @@ function stopTourAutoScroll() {
 function resumeTourAutoScroll() {
   clearTimeout(tourScrollTimeout);
   tourScrollTimeout = setTimeout(() => {
+    if (!hasScrolledManually) return;
     isManuallyScrolling = false;
     startTourAutoScroll();
-  }, 1000);
+  }, 2000);
 }
 
-// Stop auto-scroll on manual scroll
+// Detect manual scroll and hide hint
+let lastScrollTop = 0;
 tourCarousel.addEventListener('scroll', () => {
-  if (!isManuallyScrolling) {
+  const scrollDelta = Math.abs(tourCarousel.scrollTop - lastScrollTop);
+
+  if (scrollDelta > 10 && !hasScrolledManually) {
+    hasScrolledManually = true;
+    if (tourScrollHint) {
+      tourScrollHint.style.opacity = '0';
+      tourScrollHint.style.pointerEvents = 'none';
+    }
+  }
+
+  if (hasScrolledManually && !isManuallyScrolling) {
     stopTourAutoScroll();
     resumeTourAutoScroll();
-  } else {
-    resumeTourAutoScroll();
   }
+
+  lastScrollTop = tourCarousel.scrollTop;
 }, { passive: true });
 
-// Auto-scroll when in view
+// Auto-scroll when section comes into view
 const tourSection = document.getElementById('tour');
 const tourIO = new IntersectionObserver(([e]) => {
-  if (e.isIntersecting && !tourAutoScroll) {
+  if (e.isIntersecting && !tourAutoScroll && !hasScrolledManually) {
     startTourAutoScroll();
   } else if (!e.isIntersecting) {
     stopTourAutoScroll();
