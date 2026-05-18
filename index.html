@@ -70,12 +70,12 @@ body::before {
 .nav {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 50;
+  z-index: 9999;
   padding: 18px var(--pad);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(245, 244, 240, 0.85);
+  background: rgba(245, 244, 240, 0.95);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--line);
@@ -890,6 +890,39 @@ section { position: relative; }
 
 /* Labels positioned above images */
 
+/* Carousel Scroll Hint */
+.carousel-scroll-hint {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.6s ease-out;
+}
+
+.carousel-scroll-hint-text {
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.carousel-scroll-hint-arrow {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  animation: arrow-slide 1.5s infinite;
+}
+
+@keyframes arrow-slide {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+
 /* Carousel Dots */
 .carousel-dots {
   display: flex;
@@ -927,20 +960,23 @@ section { position: relative; }
 
 @media (max-width: 600px) {
   .carousel-wrapper {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
     height: auto;
+    border-radius: 12px;
+    margin: 0 -20px;
+    max-width: none;
   }
 
   .carousel-track {
-    padding: 12px;
-    gap: 12px;
+    padding: 0;
+    gap: 0;
   }
 
   .carousel-item {
-    flex: 0 0 calc(100% - 24px);
-    min-height: 400px;
+    flex: 0 0 100%;
+    min-height: 500px;
     font-size: 16px;
-    border-radius: 8px;
+    border-radius: 0;
   }
 
   .carousel-item-label {
@@ -2133,6 +2169,10 @@ section { position: relative; }
             </div>
           </div>
         </div>
+        <div class="carousel-scroll-hint" id="carouselScrollHint">
+          <div class="carousel-scroll-hint-text">Desliza</div>
+          <div class="carousel-scroll-hint-arrow">→</div>
+        </div>
       </div>
 
       <div class="carousel-dots" id="premiumCarouselDots"></div>
@@ -2913,7 +2953,9 @@ lightbox.addEventListener('click', (e) => {
 // ════════════════════════════════════════════════
 const carousel = document.getElementById('premiumCarousel');
 const dotsContainer = document.getElementById('premiumCarouselDots');
+const carouselScrollHint = document.getElementById('carouselScrollHint');
 const items = carousel.querySelectorAll('.carousel-item');
+let hasInteractedCarousel = false;
 
 // Create dots
 items.forEach((_, i) => {
@@ -2952,11 +2994,21 @@ function autoScroll() {
 carousel.addEventListener('mousedown', () => {
   isUserInteracting = true;
   clearTimeout(autoScrollTimer);
+  if (!hasInteractedCarousel && carouselScrollHint) {
+    hasInteractedCarousel = true;
+    carouselScrollHint.style.opacity = '0';
+    carouselScrollHint.style.pointerEvents = 'none';
+  }
 });
 
 carousel.addEventListener('touchstart', () => {
   isUserInteracting = true;
   clearTimeout(autoScrollTimer);
+  if (!hasInteractedCarousel && carouselScrollHint) {
+    hasInteractedCarousel = true;
+    carouselScrollHint.style.opacity = '0';
+    carouselScrollHint.style.pointerEvents = 'none';
+  }
 });
 
 carousel.addEventListener('mouseup', () => {
