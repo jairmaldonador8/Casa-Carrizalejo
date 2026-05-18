@@ -786,10 +786,11 @@ section { position: relative; }
   gap: 16px;
   padding: 20px;
   overflow-x: auto;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   height: 100%;
+  will-change: scroll-position;
 }
 
 .carousel-track::-webkit-scrollbar {
@@ -2983,10 +2984,10 @@ let isUserInteracting = false;
 
 function autoScroll() {
   const itemWidth = carousel.querySelector('.carousel-item').offsetWidth;
-  const gap = window.innerWidth <= 600 ? 12 : 16;
+  const gap = window.innerWidth <= 600 ? 0 : 16;
   carousel.scrollBy({
     left: itemWidth + gap,
-    behavior: 'smooth'
+    behavior: 'auto'
   });
   autoScrollTimer = setTimeout(autoScroll, 4000);
 }
@@ -3049,20 +3050,23 @@ carousel.addEventListener('mousemove', (e) => {
   carousel.scrollLeft = scrollLeft - walk;
 });
 
-// Touch events for mobile - very smooth
+// Touch events for mobile - very smooth & responsive
 let touchStartX = 0;
 let touchStartScroll = 0;
+let lastTouchX = 0;
 
 carousel.addEventListener('touchstart', (e) => {
-  touchStartX = e.touches[0].pageX;
+  touchStartX = e.touches[0].clientX;
+  lastTouchX = touchStartX;
   touchStartScroll = carousel.scrollLeft;
 }, { passive: true });
 
 carousel.addEventListener('touchmove', (e) => {
   if (!e.touches[0]) return;
-  const touchX = e.touches[0].pageX;
+  const touchX = e.touches[0].clientX;
   const diff = touchStartX - touchX;
   carousel.scrollLeft = touchStartScroll + diff;
+  lastTouchX = touchX;
 }, { passive: true });
 </script>
 
