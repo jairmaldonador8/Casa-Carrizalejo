@@ -820,13 +820,20 @@ section { position: relative; }
   user-select: none;
   position: relative;
   overflow: hidden;
-  background-size: cover;
-  background-position: center;
 
   opacity: 0;
   transform: translateZ(-50px) rotateX(20deg) scale(0.9);
   animation: fade3DIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   perspective: 1200px;
+}
+
+.carousel-item img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
 }
 
 .carousel-item:nth-child(1) { animation-delay: 0s; }
@@ -881,24 +888,7 @@ section { position: relative; }
   font-family: var(--sans);
 }
 
-/* Premium Detail Images - Casa Carrizalejo (17 fotos) */
-.carousel-detail-1 { background-image: url('img/aerea-cenital.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-2 { background-image: url('img/aerea-oblicua.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-3 { background-image: url('img/fachada-torre.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-4 { background-image: url('img/cerrada-calle.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-5 { background-image: url('img/portico-cochera.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-6 { background-image: url('img/vestibulo-vitral.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-7 { background-image: url('img/sala-caceria.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-8 { background-image: url('img/comedor-formal.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-9 { background-image: url('img/pasillo-marmol.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-10 { background-image: url('img/estudio-escritorio.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-11 { background-image: url('img/driveway-cipreses.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-12 { background-image: url('img/terraza-asadores.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-13 { background-image: url('img/patio-arboles.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-14 { background-image: url('img/arboleda-lateral.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-15 { background-image: url('img/jardin-trasero-sol.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-16 { background-image: url('img/jardin-arroyo.jpg'); background-size: cover; background-position: center; }
-.carousel-detail-17 { background-image: url('img/patio-evento.jpg'); background-size: cover; background-position: center; }
+/* Labels positioned above images */
 
 /* Carousel Dots */
 .carousel-dots {
@@ -1942,103 +1932,120 @@ section { position: relative; }
     <div class="carousel-container reveal">
       <div class="carousel-wrapper">
         <div class="carousel-track" id="premiumCarousel">
-          <div class="carousel-item carousel-detail-1">
+          <div class="carousel-item">
+            <img src="img/aerea-cenital.jpg" alt="Vista Aérea Cenital" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">01 / Vista Aérea Cenital</div>
               <div>Propiedad desde arriba</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-2">
+          <div class="carousel-item">
+            <img src="img/aerea-oblicua.jpg" alt="Vista Aérea Oblicua" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">02 / Vista Aérea Oblicua</div>
               <div>Perspectiva 3D</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-3">
+          <div class="carousel-item">
+            <img src="img/fachada-torre.jpg" alt="Fachada" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">03 / Fachada</div>
               <div>110 Metros Lineales</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-4">
+          <div class="carousel-item">
+            <img src="img/cerrada-calle.jpg" alt="Cerrada" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">04 / Acceso · Cerrada</div>
               <div>Calle Privada</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-5">
+          <div class="carousel-item">
+            <img src="img/portico-cochera.jpg" alt="Pórtico" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">05 / Pórtico</div>
               <div>Entrada Principal</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-6">
+          <div class="carousel-item">
+            <img src="img/vestibulo-vitral.jpg" alt="Vestíbulo" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">06 / Vestíbulo</div>
               <div>Vitral · Cristal</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-7">
+          <div class="carousel-item">
+            <img src="img/sala-caceria.jpg" alt="Sala Principal" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">07 / Sala Principal</div>
               <div>Doble Altura</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-8">
+          <div class="carousel-item">
+            <img src="img/comedor-formal.jpg" alt="Comedor" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">08 / Comedor</div>
               <div>Triple Altura · Cúpula</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-9">
+          <div class="carousel-item">
+            <img src="img/pasillo-marmol.jpg" alt="Pasillo" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">09 / Pasillo</div>
               <div>Mármol Italiano</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-10">
+          <div class="carousel-item">
+            <img src="img/estudio-escritorio.jpg" alt="Estudio" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">10 / Estudio</div>
               <div>Privado · Biblioteca</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-11">
+          <div class="carousel-item">
+            <img src="img/driveway-cipreses.jpg" alt="Driveway" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">11 / Driveway</div>
               <div>Cipreses · Acceso</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-12">
+          <div class="carousel-item">
+            <img src="img/terraza-asadores.jpg" alt="Terraza" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">12 / Terraza</div>
               <div>Horno y Asadores</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-13">
+          <div class="carousel-item">
+            <img src="img/patio-arboles.jpg" alt="Patio Interior" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">13 / Patio Interior</div>
               <div>Árboles · Eventos</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-14">
+          <div class="carousel-item">
+            <img src="img/arboleda-lateral.jpg" alt="Arboleda" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">14 / Arboleda</div>
               <div>Privacidad Natural</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-15">
+          <div class="carousel-item">
+            <img src="img/jardin-trasero-sol.jpg" alt="Jardín Trasero" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">15 / Jardín Trasero</div>
               <div>Soleado</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-16">
+          <div class="carousel-item">
+            <img src="img/jardin-arroyo.jpg" alt="Arroyo Privado" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">16 / Arroyo Privado</div>
               <div>Frontera Natural</div>
             </div>
           </div>
-          <div class="carousel-item carousel-detail-17">
+          <div class="carousel-item">
+            <img src="img/patio-evento.jpg" alt="Patio Evento" loading="lazy" />
             <div class="carousel-item-label">
               <div class="carousel-item-number">17 / Jardín · Arroyo</div>
               <div>Zona Verde Íntima</div>
