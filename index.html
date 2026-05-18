@@ -1093,85 +1093,89 @@ section { position: relative; }
 .tour__head .eyebrow { justify-content: center; }
 .tour__head .eyebrow::before { background: var(--gold); }
 
-.tour__layout {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: clamp(32px, 5vw, 64px);
-  align-items: start;
+.tour__carousel {
+  height: 600px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 
-.tour__nav { display: flex; flex-direction: column; gap: 0; }
-.tour__nav-item {
-  display: block;
+.tour__carousel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tour__carousel::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 3px;
+}
+
+.tour__carousel-slide {
+  position: relative;
+  height: 100%;
   width: 100%;
-  text-align: left;
-  padding: 24px 0;
-  border-bottom: 1px solid var(--line);
-  transition: all 0.4s;
-  color: var(--ink-3);
-}
-.tour__nav-item:hover { color: var(--ink); padding-left: 12px; }
-.tour__nav-item.active { color: var(--gold); padding-left: 16px; }
-.tour__nav-item__num {
-  font-family: var(--display);
-  font-size: 11px;
-  letter-spacing: 0.28em;
-  display: block;
-  margin-bottom: 6px;
-  opacity: 0.6;
-}
-.tour__nav-item__title {
-  font-family: var(--serif);
-  font-size: clamp(22px, 2.5vw, 32px);
-  line-height: 1.1;
-  letter-spacing: 0.01em;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.tour__panel {
-  position: sticky;
-  top: 100px;
-  aspect-ratio: 4/5;
-  overflow: hidden;
-  background: var(--bg-3);
+.tour__carousel-slide img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
-.tour__panel-slide {
+
+.tour__carousel-slide::before {
+  content: '';
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
+  z-index: 1;
 }
-.tour__panel-slide.active { opacity: 1; }
-.tour__panel-slide img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
-.tour__panel-slide::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.85));
-}
-.tour__panel-cap {
-  position: absolute;
-  bottom: 28px; left: 28px;
-  right: 28px;
+
+.tour__carousel-overlay {
+  position: relative;
   z-index: 2;
+  text-align: center;
+  color: white;
+  max-width: 600px;
+  padding: 40px;
 }
-.tour__panel-cap h4 {
+
+.tour__carousel-num {
   font-family: var(--display);
-  font-size: clamp(22px, 3vw, 36px);
-  color: var(--ink);
-  margin-bottom: 8px;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0.8;
 }
-.tour__panel-cap p {
-  font-size: 13px;
-  color: var(--ink-2);
+
+.tour__carousel-title {
+  font-family: var(--serif);
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.1;
+  margin-bottom: 12px;
+  color: white;
+}
+
+.tour__carousel-desc {
+  font-size: 14px;
   line-height: 1.6;
-  max-width: 420px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 @media (max-width: 900px) {
-  .tour__layout { grid-template-columns: 1fr; }
-  .tour__panel { position: relative; top: 0; aspect-ratio: 4/3; }
+  .tour__carousel {
+    height: 500px;
+  }
 }
 
 /* ════════════════════════════════════════════════
@@ -2206,76 +2210,53 @@ section { position: relative; }
       <h2 class="h2">Espacio por <em>espacio</em>.</h2>
     </div>
 
-    <div class="tour__layout">
-      <div class="tour__nav" id="tourNav">
-        <button class="tour__nav-item active" data-slide="0">
-          <span class="tour__nav-item__num">01 — Entrada</span>
-          <span class="tour__nav-item__title">Vestíbulo &amp; vitral</span>
-        </button>
-        <button class="tour__nav-item" data-slide="1">
-          <span class="tour__nav-item__num">02 — Social</span>
-          <span class="tour__nav-item__title">Sala principal</span>
-        </button>
-        <button class="tour__nav-item" data-slide="2">
-          <span class="tour__nav-item__num">03 — Comedor</span>
-          <span class="tour__nav-item__title">Comedor formal</span>
-        </button>
-        <button class="tour__nav-item" data-slide="3">
-          <span class="tour__nav-item__num">04 — Privado</span>
-          <span class="tour__nav-item__title">Estudio &amp; biblioteca</span>
-        </button>
-        <button class="tour__nav-item" data-slide="4">
-          <span class="tour__nav-item__num">05 — Exterior</span>
-          <span class="tour__nav-item__title">Terraza &amp; asadores</span>
-        </button>
-        <button class="tour__nav-item" data-slide="5">
-          <span class="tour__nav-item__num">06 — Patio</span>
-          <span class="tour__nav-item__title">Jardín interior</span>
-        </button>
+    <div class="tour__carousel" id="tourCarousel">
+      <div class="tour__carousel-slide">
+        <img src="img/vestibulo-vitral.jpg" alt="Vestíbulo" />
+        <div class="tour__carousel-overlay">
+          <div class="tour__carousel-num">01 / 06</div>
+          <h3 class="tour__carousel-title">Vestíbulo con vitral</h3>
+          <p class="tour__carousel-desc">Doble puerta de madera con vitral emplomado, candelabro de cristal y piso de mármol con incrustaciones. La primera impresión de la casa.</p>
+        </div>
       </div>
-
-      <div class="tour__panel" id="tourPanel">
-        <div class="tour__panel-slide active">
-          <img src="img/vestibulo-vitral.jpg" alt="Vestíbulo" />
-          <div class="tour__panel-cap">
-            <h4>Vestíbulo con vitral</h4>
-            <p>Doble puerta de madera con vitral emplomado, candelabro de cristal y piso de mármol con incrustaciones. La primera impresión de la casa.</p>
-          </div>
+      <div class="tour__carousel-slide">
+        <img src="img/sala-caceria.jpg" alt="Sala principal" />
+        <div class="tour__carousel-overlay">
+          <div class="tour__carousel-num">02 / 06</div>
+          <h3 class="tour__carousel-title">Sala principal</h3>
+          <p class="tour__carousel-desc">Mesa para 12 personas, ventanales arqueados con herrería forjada y vista a la cantera. Carácter europeo, espacio para recibir.</p>
         </div>
-        <div class="tour__panel-slide">
-          <img src="img/sala-caceria.jpg" alt="Sala principal" />
-          <div class="tour__panel-cap">
-            <h4>Sala principal &amp; comedor</h4>
-            <p>Mesa para 12 personas, ventanales arqueados con herrería forjada y vista a la cantera. Carácter europeo, espacio para recibir.</p>
-          </div>
+      </div>
+      <div class="tour__carousel-slide">
+        <img src="img/comedor-formal.jpg" alt="Comedor formal" />
+        <div class="tour__carousel-overlay">
+          <div class="tour__carousel-num">03 / 06</div>
+          <h3 class="tour__carousel-title">Comedor formal</h3>
+          <p class="tour__carousel-desc">Candelabro de cristal de gran formato bajo techo abovedado a tres alturas. Pisos de duela maciza, tapete persa y mesa para 8.</p>
         </div>
-        <div class="tour__panel-slide">
-          <img src="img/comedor-formal.jpg" alt="Comedor formal" />
-          <div class="tour__panel-cap">
-            <h4>Comedor formal · triple altura</h4>
-            <p>Candelabro de cristal de gran formato bajo techo abovedado a tres alturas. Pisos de duela maciza, tapete persa y mesa para 8.</p>
-          </div>
+      </div>
+      <div class="tour__carousel-slide">
+        <img src="img/estudio-escritorio.jpg" alt="Estudio privado" />
+        <div class="tour__carousel-overlay">
+          <div class="tour__carousel-num">04 / 06</div>
+          <h3 class="tour__carousel-title">Estudio privado</h3>
+          <p class="tour__carousel-desc">Escritorio de madera labrada bajo techo de vigas. Ventanales con persianería original y vista al jardín posterior. Espacio íntimo para el día a día.</p>
         </div>
-        <div class="tour__panel-slide">
-          <img src="img/estudio-escritorio.jpg" alt="Estudio privado" />
-          <div class="tour__panel-cap">
-            <h4>Estudio privado</h4>
-            <p>Escritorio de madera labrada bajo techo de vigas. Ventanales con persianería original y vista al jardín posterior. Espacio íntimo para el día a día.</p>
-          </div>
+      </div>
+      <div class="tour__carousel-slide">
+        <img src="img/terraza-asadores.jpg" alt="Terraza" />
+        <div class="tour__carousel-overlay">
+          <div class="tour__carousel-num">05 / 06</div>
+          <h3 class="tour__carousel-title">Terraza &amp; asadores</h3>
+          <p class="tour__carousel-desc">Pérgola con calefactores, parrilla Big Green Egg y horno de ladrillo. Comedor exterior bajo sombrillas, listo para usarse todo el año.</p>
         </div>
-        <div class="tour__panel-slide">
-          <img src="img/terraza-asadores.jpg" alt="Terraza" />
-          <div class="tour__panel-cap">
-            <h4>Terraza · horno y asadores</h4>
-            <p>Pérgola con calefactores, parrilla Big Green Egg y horno de ladrillo. Comedor exterior bajo sombrillas, listo para usarse todo el año.</p>
-          </div>
-        </div>
-        <div class="tour__panel-slide">
-          <img src="img/patio-arboles.jpg" alt="Patio interior" />
-          <div class="tour__panel-cap">
-            <h4>Patio interior &amp; arboleda</h4>
-            <p>Vista desde el segundo nivel hacia el patio empedrado con árbol central, herrería forjada y entrada a las áreas sociales. Ideal para eventos.</p>
-          </div>
+      </div>
+      <div class="tour__carousel-slide">
+        <img src="img/patio-arboles.jpg" alt="Patio interior" />
+        <div class="tour__carousel-overlay">
+          <div class="tour__carousel-num">06 / 06</div>
+          <h3 class="tour__carousel-title">Jardín interior</h3>
+          <p class="tour__carousel-desc">Vista desde el segundo nivel hacia el patio empedrado con árbol central, herrería forjada y entrada a las áreas sociales. Ideal para eventos.</p>
         </div>
       </div>
     </div>
@@ -2631,20 +2612,9 @@ document.querySelectorAll('.reveal, .reveal-zoom').forEach(el => io.observe(el))
 // ════════════════════════════════════════════════
 // TOUR — interactive room navigation
 // ════════════════════════════════════════════════
-const tourNav = document.getElementById('tourNav');
-const tourPanel = document.getElementById('tourPanel');
-const navItems = tourNav.querySelectorAll('.tour__nav-item');
-const slides = tourPanel.querySelectorAll('.tour__panel-slide');
-
-navItems.forEach(item => {
-  item.addEventListener('mouseenter', () => activateSlide(parseInt(item.dataset.slide)));
-  item.addEventListener('click',      () => activateSlide(parseInt(item.dataset.slide)));
-});
-
-function activateSlide(idx) {
-  navItems.forEach((n, i) => n.classList.toggle('active', i === idx));
-  slides.forEach((s, i) => s.classList.toggle('active', i === idx));
-}
+// ════════════════════════════════════════════════
+// TOUR CAROUSEL — CSS scroll-snap, no JS needed
+// ════════════════════════════════════════════════
 
 // ════════════════════════════════════════════════
 // FORM — multi-step + lead-scoring + WhatsApp dispatch
@@ -2762,26 +2732,6 @@ document.getElementById('reopenWA').addEventListener('click', (e) => {
   if (lastWAUrl) window.open(lastWAUrl, '_blank', 'noopener');
 });
 
-// ════════════════════════════════════════════════
-// auto-rotate tour every 6s when in view (subtle)
-// ════════════════════════════════════════════════
-let tourIdx = 0;
-let tourInterval = null;
-const tourSection = document.getElementById('tour');
-const tourIO = new IntersectionObserver(([e]) => {
-  if (e.isIntersecting) {
-    tourInterval = setInterval(() => {
-      tourIdx = (tourIdx + 1) % slides.length;
-      activateSlide(tourIdx);
-    }, 5500);
-  } else {
-    clearInterval(tourInterval);
-  }
-}, { threshold: 0.3 });
-tourIO.observe(tourSection);
-// stop auto-rotate on interaction
-tourNav.addEventListener('mouseenter', () => clearInterval(tourInterval));
-tourNav.addEventListener('click', () => clearInterval(tourInterval));
 
 // ════════════════════════════════════════════════
 // LIGHTBOX (Editorial Grid)
