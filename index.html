@@ -2686,21 +2686,41 @@ if (reelSound && reelVideo) {
 }
 
 // ════════════════════════════════════════════════
-// Ensure page always loads from top
+// Ensure page always loads from top - aggressive fix
 // ════════════════════════════════════════════════
-window.scrollTo(0, 0);
-document.documentElement.scrollTop = 0;
-document.body.scrollTop = 0;
-
-if (window.location.hash) {
-  window.location.hash = '';
+function scrollToTop() {
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  document.querySelector('html').scrollTop = 0;
 }
 
+// Clear hash immediately
+if (window.location.hash) {
+  history.replaceState(null, '', window.location.pathname);
+}
+
+// Scroll to top immediately
+scrollToTop();
+
+// Block scroll during initial load
+let allowScroll = false;
+const scrollBlockTimeout = setTimeout(() => {
+  allowScroll = true;
+}, 500);
+
+window.addEventListener('scroll', (e) => {
+  if (!allowScroll) {
+    e.preventDefault();
+    scrollToTop();
+  }
+}, { passive: false });
+
 window.addEventListener('load', () => {
+  clearTimeout(scrollBlockTimeout);
+  allowScroll = true;
   requestAnimationFrame(() => {
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
+    scrollToTop();
   });
 });
 
