@@ -4,20 +4,21 @@ Contexto para Claude Code cuando trabaje en este repo.
 
 ## Qué es
 
-Landing page single-file de una propiedad inmobiliaria de lujo en Monterrey. Subdomain/sublanding del sitio principal Montana Realty Co. La meta es captar leads pre-calificados y mandarlos directo a WhatsApp del dueño.
+Landing page single-file de una propiedad inmobiliaria de lujo en Monterrey. **TEMPLATE PRINCIPAL** para futuras propiedades de Montana Realty Co. La meta es captar leads pre-calificados y mandarlos directo a WhatsApp del dueño.
 
 - **Cliente:** Montana Realty Co.
-- **Propiedad:** EB-TZ4590 · Casa Carrizalejo · $75M MXN
-- **WhatsApp destino:** 528123532365
+- **Uso:** Template base para todas las propiedades. Customizar contenido, imágenes y WhatsApp por propiedad.
+- **Propiedad ejemplo:** EB-TZ4590 · Casa Carrizalejo · $75M MXN
+- **WhatsApp destino (Casa Carrizalejo):** 528123532365
 
 ## Stack & convenciones
 
 - **NO usar build tools.** Es un solo `index.html` con CSS y JS inline. Cualquier cambio se hace directo en ese archivo. Deploy = subir archivos estáticos.
 - **NO instalar dependencias npm.** No hay `package.json` ni `node_modules`. No metas React, Tailwind, ni nada que requiera compilación.
 - **NO mover el CSS o JS a archivos separados** salvo que se pida explícito. La preferencia es mantener todo inline para portabilidad.
-- **Tipografías:** Italiana + Cormorant Garamond (display) + Inter (body). Vienen vía Google Fonts CDN.
-- **Paleta:** dark luxe — `#0a0a0a` (bg) + `#f5f1e8` (ink) + `#c9a96e` (gold accent). Variables CSS en `:root`.
-- **Estilo:** editorial premium, sin emojis, con cursivas doradas para los acentos de los titulares (`<em>` dentro de `.h2`).
+- **Tipografías:** Cormorant Garamond (display) + Inter (body). Vienen vía Google Fonts CDN.
+- **Paleta:** light modern premium — `#F5F4F0` (bg) + `#3A3E45` (ink) + `#3A3E45` (accent). Variables CSS en `:root` — fácil de customizar por propiedad.
+- **Estilo:** editorial premium, clean, sin emojis. Énfasis en tipografía y espaciado.
 
 ## Estructura del HTML (orden de las secciones)
 
@@ -89,8 +90,23 @@ Variables CSS en `:root` al inicio del `<style>`. Si cambias fuentes, actualiza 
 - No comprimir más las fotos (ya están en calidad 82 progressive, balance correcto)
 - No agregar service workers o PWA features — es una landing, no una app
 
+## Uso como Template
+
+Esta landing **es el template base** para todas las futuras propiedades. Para crear una nueva landing:
+
+1. **Duplicar este `index.html`** como punto de partida
+2. **Cambiar datos específicos de la propiedad:**
+   - Título, precio y descripción en `.hero`
+   - WhatsApp: search & replace `528123532365` → nuevo número
+   - Fotos: reemplazar `src="img/<nombre>.jpg"` con nuevas imágenes
+   - Stats del `ribbon` y `spec` según la propiedad
+   - Tour: ajustar los 6 espacios según la propiedad específica
+   - Ubicación: actualizar el `iframe` de Google Maps
+3. **Mantener la estructura intacta:** No cambiar las clases CSS ni el HTML de las secciones (facilita mantenimiento futuro)
+4. **Paleta opcional:** Las variables CSS en `:root` se pueden ajustar si la propiedad necesita un look diferente, pero el default light modern funciona para todas
+
 ## Notas del cliente
 
 - Montana Realty maneja propiedades de lujo en San Pedro Garza García (Valle Oriente, Del Valle, San Agustín, etc.). El tono debe ser premium pero no presumido.
 - El dueño contesta directo por WhatsApp — por eso el lead-filter es importante: ahorra su tiempo filtrando los leads C antes de que lleguen.
-- Esta landing es **un caso específico**. Si Montana Realty quiere más landings para otras propiedades, podemos plantillizar esto (estructura igual, contenido específico por propiedad).
+- **Esta es la landing 1.0.** Está optimizada para conversión y reutilización. Si Montana Realty quiere variaciones de diseño (paleta oscura, layout diferente), se pueden crear como variantes del template base.
