@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejemplos de Animaciones Constantes</title>
+<style>
+  body {
+    background: #050505;
+    color: #fff;
+    font-family: 'Outfit', system-ui, sans-serif;
+    margin: 0;
+    padding: 60px 40px;
+    text-align: center;
+  }
+  h1 { font-weight: 400; color: #fff; margin-bottom: 60px; }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .card {
+    background: #1a1c20;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .icon { width: 48px; height: 48px; color: #c9a96e; margin-bottom: 20px; }
+  .title { font-size: 16px; color: #fff; }
+
+  /* ANIMATIONS */
+  
+  /* 1. Respiración / Breathing (Scale) */
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  .anim-breathe .icon { animation: breathe 3s ease-in-out infinite; }
+
+  /* 2. Flotar / Floating (Translate Y) */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .anim-float .icon { animation: float 3s ease-in-out infinite; }
+
+  /* 3. Rotación Lenta / Spin (Paneles Solares) */
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .anim-spin .icon { animation: spinSlow 12s linear infinite; }
+
+  /* 4. Ola / Wave (Rotate small angles) */
+  @keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+  }
+  .anim-wave .icon { animation: wave 4s ease-in-out infinite; }
+
+  /* 5. Latido / Pulse (Scale fast) */
+  @keyframes pulseFast {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+  .anim-pulse .icon { animation: pulseFast 1.5s ease-in-out infinite; }
+  
+  /* 6. Resplandor / Glow (Opacity) */
+  @keyframes glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  .anim-glow .icon { animation: glow 3s ease-in-out infinite; }
+
+</style>
+</head>
+<body>
+
+  <h1>Animaciones Constantes para Íconos</h1>
+
+  <div class="grid">
+    <!-- Breathing -->
+    <div class="card anim-breathe">
+      <svg class="icon" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-width="1.4" d="M16 4l3 9h10l-8 6 3 9-8-6-8 6 3-9-8-6h10z"/></svg>
+      <div class="title">Respiración (Breathing)</div>
+    </div>
+
+    <!-- Floating -->
+    <div class="card anim-float">
+      <svg class="icon" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-width="1.4" d="M4 18l12-12 12 12M7 16v12h18V16M13 28v-7h6v7"/></svg>
+      <div class="title">Flotar (Floating)</div>
+    </div>
+
+    <!-- Spin -->
+    <div class="card anim-spin">
+      <svg class="icon" viewBox="0 0 32 32"><circle cx="16" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="1.4"/><path stroke="currentColor" stroke-width="1.4" stroke-linecap="round" d="M16 2v4M16 26v4M30 16h-4M6 16H2M25.9 6.1l-2.8 2.8M8.9 23.1l-2.8 2.8M25.9 25.9l-2.8-2.8M8.9 8.9L6.1 6.1"/></svg>
+      <div class="title">Rotar (Solares)</div>
+    </div>
+
+    <!-- Wave -->
+    <div class="card anim-wave">
+      <svg class="icon" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-width="1.4" d="M4 26c4-6 8-2 12-4s8 4 12-2M4 22c4-6 8-2 12-4s8 4 12-2"/></svg>
+      <div class="title">Ola (Arroyo)</div>
+    </div>
+
+    <!-- Pulse Fast -->
+    <div class="card anim-pulse">
+      <svg class="icon" viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path stroke="currentColor" stroke-width="1.4" d="M4 12h24M10 6v20M22 6v20"/></svg>
+      <div class="title">Latido (Estacionamientos)</div>
+    </div>
+
+    <!-- Glow -->
+    <div class="card anim-glow">
+      <svg class="icon" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-width="1.4" d="M6 28V14l10-8 10 8v14M12 28v-8h8v8"/></svg>
+      <div class="title">Resplandor (Glow)</div>
+    </div>
+  </div>
+
+</body>
+</html>
