@@ -2613,8 +2613,54 @@ document.querySelectorAll('.reveal, .reveal-zoom').forEach(el => io.observe(el))
 // TOUR — interactive room navigation
 // ════════════════════════════════════════════════
 // ════════════════════════════════════════════════
-// TOUR CAROUSEL — CSS scroll-snap, no JS needed
+// TOUR CAROUSEL — auto-scroll every 4s, manual scroll stops it
 // ════════════════════════════════════════════════
+const tourCarousel = document.getElementById('tourCarousel');
+const tourSlides = document.querySelectorAll('.tour__carousel-slide');
+let tourAutoScroll = null;
+let tourScrollTimeout = null;
+let isManuallyScrolling = false;
+
+function startTourAutoScroll() {
+  tourAutoScroll = setInterval(() => {
+    tourCarousel.scrollBy({ top: tourCarousel.clientHeight, behavior: 'smooth' });
+  }, 4000);
+}
+
+function stopTourAutoScroll() {
+  clearInterval(tourAutoScroll);
+  clearTimeout(tourScrollTimeout);
+  isManuallyScrolling = true;
+}
+
+function resumeTourAutoScroll() {
+  clearTimeout(tourScrollTimeout);
+  tourScrollTimeout = setTimeout(() => {
+    isManuallyScrolling = false;
+    startTourAutoScroll();
+  }, 1000);
+}
+
+// Stop auto-scroll on manual scroll
+tourCarousel.addEventListener('scroll', () => {
+  if (!isManuallyScrolling) {
+    stopTourAutoScroll();
+    resumeTourAutoScroll();
+  } else {
+    resumeTourAutoScroll();
+  }
+}, { passive: true });
+
+// Auto-scroll when in view
+const tourSection = document.getElementById('tour');
+const tourIO = new IntersectionObserver(([e]) => {
+  if (e.isIntersecting && !tourAutoScroll) {
+    startTourAutoScroll();
+  } else if (!e.isIntersecting) {
+    stopTourAutoScroll();
+  }
+}, { threshold: 0.3 });
+tourIO.observe(tourSection);
 
 // ════════════════════════════════════════════════
 // FORM — multi-step + lead-scoring + WhatsApp dispatch
