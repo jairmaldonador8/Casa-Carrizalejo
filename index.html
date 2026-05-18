@@ -752,7 +752,7 @@ section { position: relative; }
 }
 
 /* ════════════════════════════════════════════════
-   GALLERY — editorial lookbook
+   GALLERY — PREMIUM CAROUSEL
    ════════════════════════════════════════════════ */
 .gallery {
   background: var(--bg-2);
@@ -767,70 +767,162 @@ section { position: relative; }
 }
 .gallery__head .lead { max-width: 420px; }
 
-.gallery__grid {
-  column-count: 2;
-  column-gap: 16px;
+/* Carousel Container */
+.carousel-container {
+  position: relative;
 }
-@media (min-width: 900px) {
-  .gallery__grid {
-    column-count: 3;
+
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--bg-3);
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+}
+
+.carousel-track::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carousel-track::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.carousel-track::-webkit-scrollbar-thumb {
+  background: var(--ink);
+  border-radius: 3px;
+}
+
+.carousel-item {
+  flex: 0 0 calc(50% - 8px);
+  min-height: 300px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  scroll-snap-align: start;
+  cursor: grab;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+
+  opacity: 0;
+  transform: translateZ(-50px) rotateX(20deg) scale(0.9);
+  animation: fade3DIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  perspective: 1200px;
+}
+
+.carousel-item:nth-child(1) { animation-delay: 0s; }
+.carousel-item:nth-child(2) { animation-delay: 0.15s; }
+.carousel-item:nth-child(3) { animation-delay: 0.3s; }
+.carousel-item:nth-child(4) { animation-delay: 0.45s; }
+.carousel-item:nth-child(5) { animation-delay: 0.6s; }
+.carousel-item:nth-child(6) { animation-delay: 0.75s; }
+
+@keyframes fade3DIn {
+  from {
+    opacity: 0;
+    transform: translateZ(-50px) rotateX(20deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0) rotateX(0deg) scale(1);
   }
 }
 
-.tile {
-  position: relative;
-  overflow: hidden;
-  cursor: zoom-in;
-  background: var(--bg-3);
-  margin-bottom: 16px;
-  break-inside: avoid;
-  display: block;
-}
-.tile img {
-  width: 100%; height: auto;
-  display: block;
-  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.tile:hover img { transform: scale(1.06); }
-.tile::after {
+.carousel-item::before {
   content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.75) 100%);
-  opacity: 0;
-  transition: opacity 0.4s;
-  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+  z-index: 1;
 }
-.tile:hover::after { opacity: 1; }
 
-.tile__label {
-  position: absolute;
-  bottom: 20px; left: 20px;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 22px;
-  color: var(--ink);
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.5s 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+.carousel-item-label {
+  position: relative;
   z-index: 2;
-  letter-spacing: 0.01em;
-  pointer-events: none;
+  text-align: center;
 }
-.tile__num {
-  position: absolute;
-  top: 16px; right: 18px;
-  font-family: var(--display);
-  font-size: 12px;
-  letter-spacing: 0.24em;
-  color: var(--ink);
-  opacity: 0.5;
-  z-index: 2;
-  pointer-events: none;
+
+.carousel-item-number {
+  font-size: 11px;
+  opacity: 0.8;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-family: var(--sans);
 }
-.tile:hover .tile__label { opacity: 1; transform: translateY(0); }
+
+/* Premium Detail Colors */
+.carousel-detail-1 { background: linear-gradient(135deg, #daa520 0%, #cd853f 100%); }
+.carousel-detail-2 { background: linear-gradient(135deg, #b8860b 0%, #9a7c28 100%); }
+.carousel-detail-3 { background: linear-gradient(135deg, #c0a080 0%, #a68a64 100%); }
+.carousel-detail-4 { background: linear-gradient(135deg, #d2b48c 0%, #bdb76b 100%); }
+.carousel-detail-5 { background: linear-gradient(135deg, #8b7355 0%, #9b8673 100%); }
+.carousel-detail-6 { background: linear-gradient(135deg, #a0826d 0%, #9f7f5f 100%); }
+
+/* Carousel Dots */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #BBA999;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.dot.active {
+  background: var(--ink);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.dot:hover {
+  background: var(--ink-2);
+}
+
+@media (min-width: 768px) {
+  .carousel-item {
+    flex: 0 0 calc(33.333% - 11px);
+    min-height: 350px;
+  }
+}
 
 @media (max-width: 600px) {
-  .gallery__grid { column-count: 1; }
+  .carousel-wrapper {
+    aspect-ratio: 16 / 12;
+  }
+
+  .carousel-item {
+    flex: 0 0 calc(85% - 2px);
+    min-height: 250px;
+    font-size: 16px;
+  }
 }
 
 /* ════════════════════════════════════════════════
@@ -1587,7 +1679,6 @@ section { position: relative; }
   <a href="#" class="nav__brand">
     <span class="nav__logo-text">Montana Realty Co</span>
     <div class="nav__brand-meta">
-      <div class="nav__brand-sub">Ficha exclusiva · EB-TZ4590</div>
       <div class="nav__brand-prop">Casa Carrizalejo</div>
     </div>
   </a>
@@ -1811,63 +1902,64 @@ section { position: relative; }
 </section>
 
 <!-- ═══════════════════════════════════════════════
-     GALLERY
+     GALLERY — PREMIUM CAROUSEL
      ═══════════════════════════════════════════════ -->
 <section class="section gallery" id="gallery">
   <div class="section__inner">
     <div class="gallery__head reveal">
       <div>
-        <div class="eyebrow">Lookbook</div>
-        <h2 class="h2">Una mirada<br><em>al interior.</em></h2>
+        <div class="eyebrow">Detalles Premium</div>
+        <h2 class="h2">Acabados<br><em>de lujo.</em></h2>
       </div>
       <p class="lead">
-        Vestíbulo con pórtico y pinos venecianos, sala de doble altura, antecomedor con
-        triple altura y cúpula, recámara principal con jacuzzi. Detalles en madera sólida,
-        molduras finas y pisos de mármol.
+        Mármoles importados, maderas nobles, iluminación europea, herrería artesanal y sistemas inteligentes.
+        Cada detalle cuidadosamente seleccionado.
       </p>
     </div>
 
-    <div class="gallery__grid">
-      <figure class="tile tile--a reveal">
-        <img src="img/aerea-oblicua.jpg" alt="Vista aérea de Casa Carrizalejo" />
-        <span class="tile__num">01 / 08</span>
-        <figcaption class="tile__label">Vista aérea · propiedad completa</figcaption>
-      </figure>
-      <figure class="tile tile--b reveal">
-        <img src="img/comedor-formal.jpg" alt="Comedor formal" />
-        <span class="tile__num">02 / 08</span>
-        <figcaption class="tile__label">Comedor formal · triple altura</figcaption>
-      </figure>
-      <figure class="tile tile--c reveal">
-        <img src="img/vestibulo-vitral.jpg" alt="Vestíbulo con candelabro de cristal" />
-        <span class="tile__num">03 / 08</span>
-        <figcaption class="tile__label">Vestíbulo · vitral y candelabro</figcaption>
-      </figure>
-      <figure class="tile tile--d reveal">
-        <img src="img/estudio-escritorio.jpg" alt="Estudio privado" />
-        <span class="tile__num">04 / 08</span>
-        <figcaption class="tile__label">Estudio privado · biblioteca</figcaption>
-      </figure>
-      <figure class="tile tile--e reveal">
-        <img src="img/driveway-cipreses.jpg" alt="Driveway con cipreses" />
-        <span class="tile__num">05 / 08</span>
-        <figcaption class="tile__label">Acceso interior · vista Sierra Madre</figcaption>
-      </figure>
-      <figure class="tile tile--f reveal">
-        <img src="img/terraza-asadores.jpg" alt="Terraza con asadores" />
-        <span class="tile__num">06 / 08</span>
-        <figcaption class="tile__label">Terraza · horno y asadores</figcaption>
-      </figure>
-      <figure class="tile tile--g reveal">
-        <img src="img/patio-evento.jpg" alt="Patio interior para eventos" />
-        <span class="tile__num">07 / 08</span>
-        <figcaption class="tile__label">Patio para eventos · mesa para 40</figcaption>
-      </figure>
-      <figure class="tile tile--h reveal">
-        <img src="img/arboleda-lateral.jpg" alt="Arboleda lateral" />
-        <span class="tile__num">08 / 08</span>
-        <figcaption class="tile__label">Arboleda lateral · privacidad natural</figcaption>
-      </figure>
+    <div class="carousel-container reveal">
+      <div class="carousel-wrapper">
+        <div class="carousel-track" id="premiumCarousel">
+          <div class="carousel-item carousel-detail-1">
+            <div class="carousel-item-label">
+              <div class="carousel-item-number">01 / Mármoles</div>
+              <div>Importados Italia</div>
+            </div>
+          </div>
+          <div class="carousel-item carousel-detail-2">
+            <div class="carousel-item-label">
+              <div class="carousel-item-number">02 / Pisos</div>
+              <div>Madera Brasileña</div>
+            </div>
+          </div>
+          <div class="carousel-item carousel-detail-3">
+            <div class="carousel-item-label">
+              <div class="carousel-item-number">03 / Iluminación</div>
+              <div>Diseño Europeo</div>
+            </div>
+          </div>
+          <div class="carousel-item carousel-detail-4">
+            <div class="carousel-item-label">
+              <div class="carousel-item-number">04 / Herrería</div>
+              <div>Barandales Artesanales</div>
+            </div>
+          </div>
+          <div class="carousel-item carousel-detail-5">
+            <div class="carousel-item-label">
+              <div class="carousel-item-number">05 / Puertas</div>
+              <div>Madera de Ley</div>
+            </div>
+          </div>
+          <div class="carousel-item carousel-detail-6">
+            <div class="carousel-item-label">
+              <div class="carousel-item-number">06 / Sistemas</div>
+              <div>Domótica Inteligente</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-dots" id="premiumCarouselDots"></div>
     </div>
   </div>
 </section>
@@ -2627,6 +2719,84 @@ lightbox.addEventListener('click', (e) => {
     closeLightbox();
   }
 });
+
+// ════════════════════════════════════════════════
+// PREMIUM CAROUSEL
+// ════════════════════════════════════════════════
+const carousel = document.getElementById('premiumCarousel');
+const dotsContainer = document.getElementById('premiumCarouselDots');
+const items = carousel.querySelectorAll('.carousel-item');
+
+// Create dots
+items.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (i === 0 ? ' active' : '');
+  dot.onclick = () => {
+    const itemWidth = items[0].offsetWidth + 16;
+    carousel.scrollLeft = i * itemWidth;
+    updateDots();
+  };
+  dotsContainer.appendChild(dot);
+});
+
+function updateDots() {
+  const itemWidth = items[0].offsetWidth + 16;
+  const currentIndex = Math.round(carousel.scrollLeft / itemWidth);
+  document.querySelectorAll('#premiumCarouselDots .dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentIndex);
+  });
+}
+
+// Auto-scroll every 4 seconds
+let autoScrollTimer;
+
+function autoScroll() {
+  carousel.scrollBy({
+    left: carousel.querySelector('.carousel-item').offsetWidth + 16,
+    behavior: 'smooth'
+  });
+  autoScrollTimer = setTimeout(autoScroll, 4000);
+}
+
+carousel.addEventListener('mousedown', () => clearTimeout(autoScrollTimer));
+carousel.addEventListener('touchstart', () => clearTimeout(autoScrollTimer));
+carousel.addEventListener('scroll', () => {
+  clearTimeout(autoScrollTimer);
+  updateDots();
+  autoScrollTimer = setTimeout(autoScroll, 4000);
+});
+
+autoScroll();
+
+// Drag/swipe support
+let isDown = false;
+let startX;
+let scrollLeft;
+
+carousel.addEventListener('mousedown', (e) => {
+  isDown = true;
+  startX = e.pageX - carousel.offsetLeft;
+  scrollLeft = carousel.scrollLeft;
+});
+
+carousel.addEventListener('mouseleave', () => { isDown = false; });
+carousel.addEventListener('mouseup', () => { isDown = false; });
+
+carousel.addEventListener('mousemove', (e) => {
+  if (!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - carousel.offsetLeft;
+  const walk = (x - startX);
+  carousel.scrollLeft = scrollLeft - walk;
+});
+
+// Touch events for mobile
+carousel.addEventListener('touchmove', (e) => {
+  if (!isDown) return;
+  const x = e.touches[0].pageX - carousel.offsetLeft;
+  const walk = (x - startX);
+  carousel.scrollLeft = scrollLeft - walk;
+}, { passive: true });
 </script>
 
 </body>
