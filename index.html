@@ -15,19 +15,19 @@
    ────────────────────────────────────────────── */
 
 :root {
-  --bg: #0a0a0a;
-  --bg-2: #111110;
-  --bg-3: #161614;
-  --ink: #f5f1e8;
-  --ink-2: #c9c3b3;
-  --ink-3: #8a8478;
-  --line: rgba(245, 241, 232, 0.12);
-  --line-strong: rgba(245, 241, 232, 0.28);
-  --gold: #c9a96e;
-  --gold-2: #b8945a;
-  --accent: #e8dcc4;
+  --bg: #F5F4F0;
+  --bg-2: #FFFFFF;
+  --bg-3: #EAE8E3;
+  --ink: #3A3E45;
+  --ink-2: #5A606A;
+  --ink-3: #8A909A;
+  --line: rgba(58, 62, 69, 0.12);
+  --line-strong: rgba(58, 62, 69, 0.28);
+  --gold: #3A3E45;
+  --gold-2: #1A1C20;
+  --accent: #FFFFFF;
   --serif: 'Cormorant Garamond', 'Times New Roman', serif;
-  --display: 'Italiana', 'Cormorant Garamond', serif;
+  --display: 'Cormorant Garamond', serif;
   --sans: 'Inter', system-ui, -apple-system, sans-serif;
   --maxw: 1440px;
   --pad: clamp(20px, 4vw, 56px);
@@ -75,9 +75,9 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(10, 10, 10, 0.55);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  background: rgba(245, 244, 240, 0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--line);
   transition: padding 0.3s ease;
 }
@@ -150,7 +150,6 @@ body::before {
   gap: 10px;
   padding: 10px 22px;
   border: 1px solid var(--line-strong);
-  border-radius: 999px;
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -182,6 +181,13 @@ body::before {
   padding: 0 var(--pad) var(--pad);
   overflow: hidden;
   isolation: isolate;
+  --ink: #ffffff;
+  --ink-2: rgba(255,255,255,0.85);
+  --ink-3: rgba(255,255,255,0.6);
+  --gold: #ffffff;
+  --gold-2: #eeeeee;
+  --bg: #1a1c20;
+  color: var(--ink);
 }
 
 .hero__bg {
@@ -1052,7 +1058,14 @@ section { position: relative; }
   overflow: hidden;
   border: 1px solid var(--line);
 }
-.location__map svg { width: 100%; height: 100%; }
+.location__map svg, .location__map iframe { width: 100%; height: 100%; }
+.location__map iframe {
+  filter: grayscale(100%) contrast(1.05) opacity(0.8);
+  transition: filter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.location__map:hover iframe {
+  filter: grayscale(0%) contrast(1) opacity(1);
+}
 
 .location__copy h2 { margin-bottom: 24px; }
 .location__amen {
@@ -1979,18 +1992,18 @@ section { position: relative; }
           Vasconcelos, Centrito Valle y Valle Oriente, con la tranquilidad de una calle cerrada.
         </p>
         <div class="location__amen">
-          <div class="location__amen-item">10 min a Centrito Valle</div>
-          <div class="location__amen-item">12 min a Calzada del Valle</div>
-          <div class="location__amen-item">8 min a Vasconcelos</div>
-          <div class="location__amen-item">15 min a Valle Oriente</div>
-          <div class="location__amen-item">5 min a Pueblo Serena</div>
-          <div class="location__amen-item">25 min al Aeropuerto MTY</div>
+          <div class="location__amen-item reveal" style="transition-delay: 0.1s">10 min a Centrito Valle</div>
+          <div class="location__amen-item reveal" style="transition-delay: 0.2s">12 min a Calzada del Valle</div>
+          <div class="location__amen-item reveal" style="transition-delay: 0.3s">8 min a Vasconcelos</div>
+          <div class="location__amen-item reveal" style="transition-delay: 0.4s">15 min a Valle Oriente</div>
+          <div class="location__amen-item reveal" style="transition-delay: 0.5s">5 min a Pueblo Serena</div>
+          <div class="location__amen-item reveal" style="transition-delay: 0.6s">25 min al Aeropuerto MTY</div>
         </div>
       </div>
 
       <div class="location__map reveal">
         <!-- Google Maps embed with street view -->
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3599.552429!2d-100.414501!3d25.648987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662ed2a4c9c9c9d%3A0x1234567890abcdef!2sAmacuzac%20450%2C%20San%20Pedro%20Garza%20Garc%C3%ADa%2C%20Nuevo%20Le%C3%B3n!5e0!3m2!1ses-MX!2smx!4v1715824800000" width="100%" height="100%" style="border:none;border-radius:8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="https://maps.google.com/maps?q=Carrizalejo,%20San%20Pedro%20Garza%20Garc%C3%ADa,%20Nuevo%20Le%C3%B3n&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:none;border-radius:8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
   </div>
